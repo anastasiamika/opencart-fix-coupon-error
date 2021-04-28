@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<modification
+		xmlns="https://github.com/vqmod/vqmod"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="https://github.com/vqmod/vqmod https://raw.githubusercontent.com/vqmod/vqmod/master/vqmod.xsd">
+		>
+		<id><![CDATA[[VQMOD]Coupon Fix When Cancelling Order - 2.3.0.2]]></id>
+		<version><![CDATA[1.0]]></version>
+		<vqmver><![CDATA[2.x]]></vqmver>
+		<author><![CDATA[Anastasia]]></author>
+		
+		
+		<file name="catalog/model/extension/total/coupon.php">
+			<operation>
+				<search position="replace"><![CDATA[return $this->config->get('config_fraud_status_id');]]></search> 
+				<add><![CDATA[
+				$this->db->query("INSERT INTO `" . DB_PREFIX . "coupon_history` SET coupon_id = '" . (int)$coupon_info['coupon_id'] . "', order_id = '" . (int)$order_info['order_id'] . "', customer_id = '" . (int)$order_info['customer_id'] . "', amount = '" . (float)$order_total['value'] . "', date_added = NOW()");
+				]]>	</add>
+			</operation>
+			
+		</file>	
+		
+
+		
+	</modification>
